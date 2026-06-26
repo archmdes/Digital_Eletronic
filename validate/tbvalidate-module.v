@@ -64,8 +64,8 @@ module validate_move_tb;
         // PLAYER: 000 0011 01  (azul, naipe 3, normal)
         // -------------------------------------------------
         PLAYER_TURN = 1;
-        TOP_CARD    = 9'b000_0001_01;
-        PLAYER_CARD = 9'b000_0011_01;
+        TOP_CARD    = 8'b00_0001_01;
+        PLAYER_CARD = 8'b00_0011_01;
         show_result(PLAYER_CARD, TOP_CARD);
 
         // -------------------------------------------------
@@ -73,8 +73,8 @@ module validate_move_tb;
         // TOP:    000 0011 01  (azul, naipe 3)
         // PLAYER: 000 0011 10  (amarelo, naipe 3)
         // -------------------------------------------------
-        TOP_CARD    = 9'b000_0011_01;
-        PLAYER_CARD = 9'b000_0011_10;
+        TOP_CARD    = 8'b00_0011_01;
+        PLAYER_CARD = 8'b00_0011_10;
         show_result(PLAYER_CARD, TOP_CARD);
 
         // -------------------------------------------------
@@ -82,24 +82,24 @@ module validate_move_tb;
         // TOP:    000 0001 01  (azul, naipe 1)
         // PLAYER: 000 0111 11  (verde, naipe 7)
         // -------------------------------------------------
-        TOP_CARD    = 9'b000_0001_01;
-        PLAYER_CARD = 9'b000_0111_11;
+        TOP_CARD    = 8'b00_0001_01;
+        PLAYER_CARD = 8'b00_0111_11;
         show_result(PLAYER_CARD, TOP_CARD);
 
         // -------------------------------------------------
         // Teste 4: carta especial +2 → SPECIAL_CARD
         // PLAYER: 010 0000 01  (azul, +2)
         // -------------------------------------------------
-        TOP_CARD    = 9'b000_0001_01;
-        PLAYER_CARD = 9'b010_0000_01;
+        TOP_CARD    = 8'b00_0001_01;
+        PLAYER_CARD = 8'b10_0000_01;
         show_result(PLAYER_CARD, TOP_CARD);
 
         // -------------------------------------------------
         // Teste 5: carta especial +4 → SPECIAL_CARD
         // PLAYER: 001 0000 00  (+4, troca cor)
         // -------------------------------------------------
-        TOP_CARD    = 9'b000_0001_01;
-        PLAYER_CARD = 9'b001_0000_00;
+        TOP_CARD    = 8'b00_0001_01;
+        PLAYER_CARD = 8'b01_0000_00;
         show_result(PLAYER_CARD, TOP_CARD);
 
         $display("=== Teste da CPU ===");
@@ -109,14 +109,14 @@ module validate_move_tb;
         // -------------------------------------------------
         PLAYER_TURN = 0;
         CPU_TURN    = 1;
-        TOP_CARD    = 9'b000_0001_01;
-        CPU_CARD    = 9'b000_0101_11;
+        TOP_CARD    = 8'b00_0001_01;
+        CPU_CARD    = 8'b00_0101_11;
         show_result(CPU_CARD, TOP_CARD);
 
         // -------------------------------------------------
         // Teste 7: CPU joga carta especial reverso
         // -------------------------------------------------
-        CPU_CARD = 9'b100_0000_10;
+        CPU_CARD = 8'b10_0000_10;
         show_result(CPU_CARD, TOP_CARD);
 
         $display("=== Fim dos testes ===");
