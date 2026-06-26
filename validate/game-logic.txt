@@ -1,0 +1,45 @@
+## O que eu pensei para fazer a jogada. 
+    preciso saber quem está jogando para decidir 
+        PLAYER_TURN: 
+            então temos que analisar TOP_CARD e PLAYER_CARD 
+            comparar bit-a-bit se a cor, naipe ou se é carta especial
+        CPU_TURN: 
+            temos que acessar a memoria para ver quais cartas a cpu tem disponivel 
+            comparamos com a carta do top pelo mesmos criterios: A primeira carta que casar com o top vamos jogá-las
+
+        caso não exista nenhuma carta jogável - INVALID_MOVE
+
+    Dúvidas: 
+        * Para olhar as cartas da CPU eu tenho que fazer essa requisição no modulo memoria/baralho de cada carta ou eu acesso o baralho inteiro? 
+        * Eu passo um parâmetro de carta especial para o modulo especifico? Vou designar um conjunto de bytes para identificar (ok)
+        * Carta 8 bits [0:8] (ok)
+
+Entradas
+CLK → clock do sistema;
+RESET → reinicialização;
+PLAYER_CARD → indica a carta atualmente selecionada na mão do PLAYER;
+CPU_CARD -> Advindo do modulo de memoria/baralho ele que vai enviar as cartas
+TOP_CARD → indica a carta no topo da pilha de descarte sobre a mesa.
+PLAYER_TURN → vez do jogador (humano)
+CPU_TURN → vez da CPU 
+
+Interfaces de Memória
+
+CARD_IN;
+CARD_OUT;
+MEM_CTRL; 
+
+Saídas
+INVALID_MOVE → indica que PLAYER tentou realizar uma jogada inválida – sinal ativo por pelo
+menos 2 segundos;
+SPECIAL_CARD → Indica que aconteceu uma jogada especial 
+
+Tipo de máquina: MAQUINA DE MEALY
+
+Quais estados: 
+
+    segueJogada
+    cartaEspecial
+    invalidMove
+
+Falta diagrama de estados 
