@@ -13,14 +13,14 @@ module validate_move(
     input PLAYER_TURN;
     input CPU_TURN;
 
-    input [8:0] PLAYER_CARD;
-    input [8:0] CPU_CARD;
-    input [8:0] TOP_CARD;
+    input [7:0] PLAYER_CARD;
+    input [7:0] CPU_CARD;
+    input [7:0] TOP_CARD;
 
     // Saídas
     output reg INVALID_MOVE;
     output reg SPECIAL_CARD;
-    output reg [8:0] NEW_TOP_CARD; // TOP_CARD não pode ser saída e entrada ao mesmo tempo
+    output reg [7:0] NEW_TOP_CARD; // TOP_CARD não pode ser saída e entrada ao mesmo tempo
 
     // Mapeamento dos bits:
     // [1:0]  = cor      (00=vermelho, 01=azul, 10=amarelo, 11=verde)

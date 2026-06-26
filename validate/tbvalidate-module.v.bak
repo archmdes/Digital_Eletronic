@@ -7,14 +7,14 @@ module validate_move_tb;
     reg rst;
     reg PLAYER_TURN;
     reg CPU_TURN;
-    reg [7:0] PLAYER_CARD;
-    reg [7:0] CPU_CARD;
-    reg [7:0] TOP_CARD;
+    reg [8:0] PLAYER_CARD;
+    reg [8:0] CPU_CARD;
+    reg [8:0] TOP_CARD;
 
     // Saídas
     wire INVALID_MOVE;
     wire SPECIAL_CARD;
-    wire [7:0] NEW_TOP_CARD;
+    wire [8:0] NEW_TOP_CARD;
 
     // Instancia o módulo
     validate_move uut (
@@ -35,8 +35,8 @@ module validate_move_tb;
 
     // Tarefa auxiliar para exibir resultado
     task show_result;
-        input [7:0] card;
-        input [7:0] top;
+        input [8:0] card;
+        input [8:0] top;
         begin
             #10; // espera um ciclo
             $display("CARD=%b  TOP=%b  | INVALID=%b  SPECIAL=%b  NEW_TOP=%b",
@@ -50,9 +50,9 @@ module validate_move_tb;
         rst = 1;
         PLAYER_TURN = 0;
         CPU_TURN    = 0;
-        PLAYER_CARD = 8'b0;
-        CPU_CARD    = 8'b0;
-        TOP_CARD    = 8'b0;
+        PLAYER_CARD = 9'b0;
+        CPU_CARD    = 9'b0;
+        TOP_CARD    = 9'b0;
 
         #10 rst = 0;
 
