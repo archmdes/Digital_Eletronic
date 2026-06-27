@@ -1,0 +1,10 @@
+db/
+incremental_db/
+output_files/
+*.rpt
+*.log
+*.summary
+*.qws
+*.jdi
+*.qsf.bak
+*.smsg
