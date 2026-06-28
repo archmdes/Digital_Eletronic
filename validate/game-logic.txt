@@ -1,0 +1,44 @@
+## O que eu pensei para fazer a jogada. 
+    preciso saber quem está jogando para decidir 
+        PLAYER_TURN: 
+            então temos que analisar TOP_CARD e PLAYER_CARD 
+            comparar bit-a-bit se a cor, naipe ou se é carta especial
+        CPU_TURN: 
+            Já temos o baralho da cpu na memoria e ela apenas jogará a carta válida, então o que precisamos validar é apenas a carta obtida através do DRAW e se a 
+            carta que está no top_card (jogada por ele) é especial ou não 
+            
+            duvida: Qual modulo executará as movimentações da CPU? 
+
+        caso não exista nenhuma carta jogável - INVALID_MOVE
+
+    
+Entradas
+CLK → clock do sistema;
+RESET → reinicialização;
+PLAYER_CARD → indica a carta atualmente selecionada na mão do PLAYER;
+CPU_CARD -> Advindo do modulo de memoria/baralho ele que vai enviar as cartas
+TOP_CARD → indica a carta no topo da pilha de descarte sobre a mesa.
+PLAYER_TURN → vez do jogador (humano)
+CPU_TURN → vez da CPU 
+
+Interfaces de Memória - vou precisar usar?
+
+CARD_IN;
+CARD_OUT;
+MEM_CTRL; 
+
+Saídas
+INVALID_MOVE → indica que PLAYER tentou realizar uma jogada inválida – sinal ativo por pelo
+menos 2 segundos;
+SPECIAL_CARD → Indica que aconteceu uma jogada especial 
+NEW_TOP_CARD → Nova carta de topo, caso a jogada for aprovada ou não 
+
+Tipo de máquina: MAQUINA DE MEALY
+
+Quais estados: 
+
+    segueJogada
+    cartaEspecial
+    invalidMove
+    IDLE (Entre turnos - analise de jogadas)
+    Diagrama de estados -> DRAW.io
