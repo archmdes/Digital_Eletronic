@@ -25,7 +25,7 @@ module validate_move(
     // Mapeamento dos bits:
     // [1:0]  = cor      (00=vermelho, 01=azul, 10=amarelo, 11=verde)
     // [5:2]  = naipe    (0–9)
-    // [8:6]  = especial (000=normal, 001=+4, 010=+2, 011=bloqueado, 100=reverso, 101=trocar cor)
+    // [7:6]  = especial (000=normal, 01=+4, 10=+2, 11=bloqueado ou reverso 
 
     // Fios internos para as cartas jogadas
     wire [1:0] player_color   = PLAYER_CARD[1:0];
@@ -64,7 +64,7 @@ module validate_move(
             end
         end
 
-        else if (CPU_TURN) begin
+        else if (CPU_TURN) begin   //analisar qual modulo vai fazer a seleção da carta correta 
             // CPU sempre joga carta válida, só atualiza o topo
             SPECIAL_CARD <= (cpu_special != 2'b00);
             NEW_TOP_CARD <= CPU_CARD;
