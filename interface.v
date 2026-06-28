@@ -102,7 +102,7 @@ module button_conditioner (
         sync_1 <= sync_0;
     end
 
-    parameter DEBOUNCE_LIMIT = 1000000;
+    parameter DEBOUNCE_LIMIT = 1000000; //para teste voltar para 1000000
     reg [19:0] counter = 0;
     reg stable_state = 0;
 
@@ -221,23 +221,51 @@ module led_controller (
     input wire PLAYER_TURN, CPU_TURN,
     input wire INVALID_MOVE, DRAW_ACTION, SKIP_ACTION,
     input wire WIN, LOSE,
-	 
+    
     output reg [8:0] LEDG,
     output reg [17:0] LEDR
 );
 
     reg [26:0] timer = 0;
     reg active_timer = 0;
+   
+    reg latch_error = 0;
+    reg latch_action = 0;
+
+    reg is_win = 0;
+    reg is_lose = 0;
 
     always @(posedge clk) begin
-        if (active_timer) begin
-            if (timer < 100000000) timer <= timer + 1;
-            else begin
-                timer <= 0;
-                active_timer <= 0;
+        if (~reset) begin
+            timer <= 0;
+            active_timer <= 0;
+            latch_error <= 0;
+            latch_action <= 0;
+            is_win <= 0;
+            is_lose <= 0;
+        end 
+        else begin
+            if (WIN) is_win <= 1;
+            if (LOSE) is_lose <= 1;
+
+            if (active_timer) begin
+                if (timer < 100000000) begin // para teste colocar depois para 100000000
+                    timer <= timer + 1;
+                end else begin
+                    timer <= 0;
+                    active_timer <= 0;
+                    latch_error <= 0;
+                    latch_action <= 0;
+                end
+            end 
+            else if (INVALID_MOVE) begin
+                active_timer <= 1;
+                latch_error <= 1;
+            end 
+            else if (DRAW_ACTION || SKIP_ACTION) begin
+                active_timer <= 1;
+                latch_action <= 1;
             end
-        end else if (INVALID_MOVE || DRAW_ACTION || SKIP_ACTION) begin
-            active_timer <= 1;
         end
     end
 
@@ -245,12 +273,16 @@ module led_controller (
         LEDG = 9'b0;
         LEDR = 18'b0;
 
-        if (WIN) LEDG = 9'b111111111; 
-        else if (LOSE) LEDR = 18'b111111111111111111;
+        if (is_win) begin
+            LEDG = 9'b111111111; 
+        end
+        else if (is_lose) begin
+            LEDR = 18'b111111111111111111; 
+        end
         
         else if (active_timer) begin
-            if (INVALID_MOVE) LEDR = 18'b111111111111111111; 
-            if (DRAW_ACTION || SKIP_ACTION) LEDG = 9'b111111111; 
+            if (latch_error) LEDR = 18'b111111111111111111; 
+            if (latch_action) LEDG = 9'b111111111; 
         end
         
         else begin
