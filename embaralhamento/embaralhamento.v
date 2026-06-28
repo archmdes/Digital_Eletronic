@@ -1,59 +1,80 @@
 module embaralhador #(
     parameter DATA_WIDTH = 7,
+    parameter ADDR_WIDTH = 7,
     parameter NUM_CARTAS = 108
 ) (
     input  wire clk,
     input  wire rst,
-    input  wire start_shuffle,
-    output reg  done,
-    input  wire [DATA_WIDTH-1:0] memory_in  [0:NUM_CARTAS-1],
-    output reg  [DATA_WIDTH-1:0] memory_out [0:NUM_CARTAS-1]
+    input  wire start,       
+    output reg  done,        
+
+    // Interface de Leitura (Para a ROM)
+    output reg  [ADDR_WIDTH-1:0] addr_in,
+    input  wire [DATA_WIDTH-1:0] data_in,
+
+    // Interface de Escrita (Para a RAM)
+    output reg  we_out,
+    output reg  [ADDR_WIDTH-1:0] addr_out,
+    output reg  [DATA_WIDTH-1:0] data_out
 );
 
-    // Codificação dos Estados da FSM
-    localparam S_IDLE    = 2'b00;
-    localparam S_SHUFFLE = 2'b01;
-    localparam S_DONE    = 2'b10;
+    localparam S_IDLE  = 2'd0;
+    localparam S_READ  = 2'd1;
+    localparam S_WRITE = 2'd2;
+    localparam S_DONE  = 2'd3;
 
-    reg [1:0] estado_atual;
-    reg [6:0] contador; // 7 bits cobrem o valor 108 (até 127)
+    reg [1:0] estado;
+    reg [6:0] contador;
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            estado_atual <= S_IDLE;
-            contador     <= 0;
-            done         <= 1'b0;
+            estado   <= S_IDLE;
+            contador <= 0;
+            done     <= 0;
+            we_out   <= 0;
+            addr_in  <= 0;
         end else begin
-            case (estado_atual)
-                // ESTADO 1: Aguarda o comando da Super FSM
+            case (estado)
+                
                 S_IDLE: begin
-                    done     <= 1'b0;
+                    done     <= 0;
+                    we_out   <= 0;
                     contador <= 0;
-                    if (start_shuffle) begin
-                        estado_atual <= S_SHUFFLE;
+                    if (start) begin
+                        estado  <= S_READ;
+                        addr_in <= 0; 
                     end
                 end
 
-                // ESTADO 2: Realiza a inversão carta por carta
-                S_SHUFFLE: begin
-                    memory_out[contador] <= memory_in[NUM_CARTAS - 1 - contador];
+                S_READ: begin
+                    we_out <= 0;
+                    estado <= S_WRITE; 
+                end
+
+                S_WRITE: begin
+                    we_out   <= 1;
+                    data_out <= data_in; 
                     
+                    addr_out <= (NUM_CARTAS - 1) - contador;
+
                     if (contador == NUM_CARTAS - 1) begin
-                        estado_atual <= S_DONE; // Terminou todas as cartas
+                        estado <= S_DONE;
                     end else begin
-                        contador <= contador + 1; // Avança para a próxima carta
+                        contador <= contador + 1;
+                        addr_in  <= contador + 1; 
+                        estado   <= S_READ;
                     end
                 end
 
-                // ESTADO 3: Sinaliza a conclusão para a FSM
                 S_DONE: begin
-                    done <= 1'b1;
-                    if (!start_shuffle) begin
-                        estado_atual <= S_IDLE; // Retorna quando o comando for desligado
+                    we_out <= 0;
+                    done   <= 1;
+                    if (!start) begin
+                        estado <= S_IDLE; 
                     end
                 end
-
-                default: estado_atual <= S_IDLE;
+                
+                default: estado <= S_IDLE;
             endcase
         end
     end
