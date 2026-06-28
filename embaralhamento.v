@@ -16,7 +16,6 @@ module embaralhador #(
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             done <= 1'b0;
-            // Opcional: limpar memória ou manter estado inicial
         end else if (start_shuffle) begin
             // Lógica de embaralhamento (Inversão)
             for (i = 0; i < NUM_CARTAS; i = i + 1) begin
