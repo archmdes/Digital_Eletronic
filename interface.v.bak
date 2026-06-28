@@ -1,0 +1,45 @@
+module interface (
+    input wire CLK,        
+    input wire RESET,      
+    input wire SELECT,      
+    input wire PLAY,       
+    input wire DRAW,        
+
+    input wire [3:0] N_PLAYER,     
+    input wire [3:0] N_CPU,         
+    input wire [7:0] PLAYER_CARD,  
+    input wire [7:0] TOP_CARD,      
+    
+    input wire PLAYER_TURN,       
+    input wire CPU_TURN,          
+    input wire INVALID_MOVE,       
+    input wire DRAW_ACTION,         
+    input wire SKIP_ACTION,       
+    input wire WIN,                
+    input wire LOSE,               
+
+    output wire select_pulse,
+    output wire play_pulse,
+    output wire draw_pulse,
+
+    output wire [6:0] HEX0, 
+    output wire [6:0] HEX1, 
+    output wire [6:0] HEX2, 
+    output wire [6:0] HEX3, 
+    output wire [6:0] HEX4, 
+    output wire [6:0] HEX5,
+    output wire [6:0] HEX6, 
+    output wire [6:0] HEX7,
+    
+    output wire [8:0] LEDG,
+    output wire [17:0] LEDR 
+);
+
+    // =========================================================
+    // A LÓGICA DOS SUBMÓDULOS ENTRARÁ AQUI ABAIXO
+    // (Debouncer, Decodificador de Displays e Temporizadores)
+    // =========================================================
+
+
+
+endmodule
