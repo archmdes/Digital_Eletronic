@@ -1,5 +1,5 @@
 module rom_cartas #(
-    parameter DATA_WIDTH = 6, // Conforme deter
+    parameter DATA_WIDTH = 7, // Conforme deter
     parameter ADDR_WIDTH = 7  // 128 posições
 ) (
     input wire clk,
