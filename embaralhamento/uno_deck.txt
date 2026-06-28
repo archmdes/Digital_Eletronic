@@ -1,0 +1,128 @@
+0000000 // Normal | Vermelho | 0
+0000001 // Normal | Vermelho | 1
+0000010 // Normal | Vermelho | 2
+0000011 // Normal | Vermelho | 3
+0000100 // Normal | Vermelho | 4
+0000101 // Normal | Vermelho | 5
+0000110 // Normal | Vermelho | 6
+0000111 // Normal | Vermelho | 7
+0001000 // Normal | Vermelho | 8
+0001001 // Normal | Vermelho | 9
+1000000 // Especial | Vermelho | Skip
+1000001 // Especial | Vermelho | Reverse
+1000010 // Especial | Vermelho | Draw Two
+0010000 // Normal | Amarelo | 0
+0010001 // Normal | Amarelo | 1
+0010010 // Normal | Amarelo | 2
+0010011 // Normal | Amarelo | 3
+0010100 // Normal | Amarelo | 4
+0010101 // Normal | Amarelo | 5
+0010110 // Normal | Amarelo | 6
+0010111 // Normal | Amarelo | 7
+0011000 // Normal | Amarelo | 8
+0011001 // Normal | Amarelo | 9
+1010000 // Especial | Amarelo | Skip
+1010001 // Especial | Amarelo | Reverse
+1010010 // Especial | Amarelo | Draw Two
+0100000 // Normal | Verde | 0
+0100001 // Normal | Verde | 1
+0100010 // Normal | Verde | 2
+0100011 // Normal | Verde | 3
+0100100 // Normal | Verde | 4
+0100101 // Normal | Verde | 5
+0100110 // Normal | Verde | 6
+0100111 // Normal | Verde | 7
+0101000 // Normal | Verde | 8
+0101001 // Normal | Verde | 9
+1100000 // Especial | Verde | Skip
+1100001 // Especial | Verde | Reverse
+1100010 // Especial | Verde | Draw Two
+0110000 // Normal | Azul | 0
+0110001 // Normal | Azul | 1
+0110010 // Normal | Azul | 2
+0110011 // Normal | Azul | 3
+0110100 // Normal | Azul | 4
+0110101 // Normal | Azul | 5
+0110110 // Normal | Azul | 6
+0110111 // Normal | Azul | 7
+0111000 // Normal | Azul | 8
+0111001 // Normal | Azul | 9
+1110000 // Especial | Azul | Skip
+1110001 // Especial | Azul | Reverse
+1110010 // Especial | Azul | Draw Two
+1000011 // Especial | Curinga (Mant�m Cor) | Wild
+1000100 // Especial | Curinga (Mant�m Cor) | Wild Draw Four
+0000000 // Normal | Vermelho | 0
+0000001 // Normal | Vermelho | 1
+0000010 // Normal | Vermelho | 2
+0000011 // Normal | Vermelho | 3
+0000100 // Normal | Vermelho | 4
+0000101 // Normal | Vermelho | 5
+0000110 // Normal | Vermelho | 6
+0000111 // Normal | Vermelho | 7
+0001000 // Normal | Vermelho | 8
+0001001 // Normal | Vermelho | 9
+1000000 // Especial | Vermelho | Skip
+1000001 // Especial | Vermelho | Reverse
+1000010 // Especial | Vermelho | Draw Two
+0010000 // Normal | Amarelo | 0
+0010001 // Normal | Amarelo | 1
+0010010 // Normal | Amarelo | 2
+0010011 // Normal | Amarelo | 3
+0010100 // Normal | Amarelo | 4
+0010101 // Normal | Amarelo | 5
+0010110 // Normal | Amarelo | 6
+0010111 // Normal | Amarelo | 7
+0011000 // Normal | Amarelo | 8
+0011001 // Normal | Amarelo | 9
+1010000 // Especial | Amarelo | Skip
+1010001 // Especial | Amarelo | Reverse
+1010010 // Especial | Amarelo | Draw Two
+0100000 // Normal | Verde | 0
+0100001 // Normal | Verde | 1
+0100010 // Normal | Verde | 2
+0100011 // Normal | Verde | 3
+0100100 // Normal | Verde | 4
+0100101 // Normal | Verde | 5
+0100110 // Normal | Verde | 6
+0100111 // Normal | Verde | 7
+0101000 // Normal | Verde | 8
+0101001 // Normal | Verde | 9
+1100000 // Especial | Verde | Skip
+1100001 // Especial | Verde | Reverse
+1100010 // Especial | Verde | Draw Two
+0110000 // Normal | Azul | 0
+0110001 // Normal | Azul | 1
+0110010 // Normal | Azul | 2
+0110011 // Normal | Azul | 3
+0110100 // Normal | Azul | 4
+0110101 // Normal | Azul | 5
+0110110 // Normal | Azul | 6
+0110111 // Normal | Azul | 7
+0111000 // Normal | Azul | 8
+0111001 // Normal | Azul | 9
+1110000 // Especial | Azul | Skip
+1110001 // Especial | Azul | Reverse
+1110010 // Especial | Azul | Draw Two
+1000011 // Especial | Curinga (Mantem Cor) | Wild
+1000100 // Especial | Curinga (Mantem Cor) | Wild Draw Four
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
+0000000 // Vazio / Ocioso
