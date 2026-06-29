@@ -17,33 +17,33 @@ module validate_move(
     input [7:0] CPU_CARD;
     input [7:0] TOP_CARD;
 
-    // Saídas
+    // Sa�das
     output reg INVALID_MOVE;
     output reg SPECIAL_CARD;
     output reg [7:0] NEW_TOP_CARD;
 
     // Mapeamento dos bits [7:0]:
     // [1:0] = cor      (00=vermelho, 01=azul, 10=amarelo, 11=verde)
-    // [5:2] = naipe    (0–9)
-    // [7:6] = especial (00=normal, 01=+2, 10=reverso/bloqueio, 11=+4/trocar cor)
+    // [5:2] = naipe    (0?9)
+    // [7:6] = especial (00=normal, 01=+2, 10=reverso/bloqueio, 11=+4)
 
-    // Decodificação da carta do jogador
+    // Decodifica��o da carta do jogador
     wire [1:0] player_color   = PLAYER_CARD[1:0];
     wire [3:0] player_number  = PLAYER_CARD[5:2];
     wire [1:0] player_special = PLAYER_CARD[7:6];
 
-    // Decodificação do topo da pilha
+    // Decodifica��o do topo da pilha
     wire [1:0] top_color      = TOP_CARD[1:0];
     wire [3:0] top_number     = TOP_CARD[5:2];
     wire [1:0] top_special    = TOP_CARD[7:6];
 
-    // Decodificação da carta da CPU
-    wire [1:0] cpu_color      = CPU_CARD[1:0];
+    // Decodifica��o da carta da CPU
+    wire [1:0] cpu_color      = CPU_CARD[1:0]; 
     wire [3:0] cpu_number     = CPU_CARD[5:2];
     wire [1:0] cpu_special    = CPU_CARD[7:6];
 
     // -------------------------------------------------------
-    // Estados da máquina de Mealy
+    // Estados da m�quina de Mealy
     // -------------------------------------------------------
     localparam [1:0]
         IDLE          = 2'b00,
@@ -54,11 +54,8 @@ module validate_move(
     reg [1:0] estado_atual;
     reg [1:0] proximo_estado;
 
-    // Contador para manter INVALID_MOVE ativo por 2 ciclos
-    reg [1:0] invalid_counter;
-
     // -------------------------------------------------------
-    // Lógica de próximo estado (combinacional — Mealy)
+    // L�gica de pr�ximo estado
     // -------------------------------------------------------
     always @(*) begin
         proximo_estado = IDLE;
@@ -85,21 +82,14 @@ module validate_move(
 
             SEGUE_JOGADA:   proximo_estado = IDLE;
             CARTA_ESPECIAL: proximo_estado = IDLE;
-
-            INVALID_STATE: begin
-                // Permanece até o contador zerar (≥2 ciclos)
-                if (invalid_counter == 2'b00)
-                    proximo_estado = IDLE;
-                else
-                    proximo_estado = INVALID_STATE;
-            end
+            INVALID_STATE:  proximo_estado = IDLE;
 
             default: proximo_estado = IDLE;
         endcase
     end
 
     // -------------------------------------------------------
-    // Registro de estado (síncrono)
+    // Registro de estado (s�ncrono)
     // -------------------------------------------------------
     always @(posedge clk or posedge rst) begin
         if (rst)
@@ -109,55 +99,45 @@ module validate_move(
     end
 
     // -------------------------------------------------------
-    // Lógica de saídas (Mealy — estado atual + entradas)
+    // L�gica de sa�da (registrada)
     // -------------------------------------------------------
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            INVALID_MOVE    <= 1'b0;
-            SPECIAL_CARD    <= 1'b0;
-            NEW_TOP_CARD    <= TOP_CARD;
-            invalid_counter <= 2'b00;
+            INVALID_MOVE <= 1'b0;
+            SPECIAL_CARD <= 1'b0;
+            NEW_TOP_CARD <= TOP_CARD;
         end
         else begin
             case (proximo_estado)
 
                 SEGUE_JOGADA: begin
-                    INVALID_MOVE    <= 1'b0;
-                    SPECIAL_CARD    <= 1'b0;
-                    NEW_TOP_CARD    <= (PLAYER_TURN) ? PLAYER_CARD : CPU_CARD;
-                    invalid_counter <= 2'b00;
+                    INVALID_MOVE <= 1'b0;
+                    SPECIAL_CARD <= 1'b0;
+                    NEW_TOP_CARD <= (PLAYER_TURN) ? PLAYER_CARD : CPU_CARD;
                 end
 
                 CARTA_ESPECIAL: begin
-                    INVALID_MOVE    <= 1'b0;
-                    SPECIAL_CARD    <= 1'b1;
-                    NEW_TOP_CARD    <= (PLAYER_TURN) ? PLAYER_CARD : CPU_CARD;
-                    invalid_counter <= 2'b00;
+                    INVALID_MOVE <= 1'b0;
+                    SPECIAL_CARD <= 1'b1;
+                    NEW_TOP_CARD <= (PLAYER_TURN) ? PLAYER_CARD : CPU_CARD;
                 end
 
                 INVALID_STATE: begin
-                    INVALID_MOVE    <= 1'b1;
-                    SPECIAL_CARD    <= 1'b0;
-                    NEW_TOP_CARD    <= TOP_CARD; // topo não muda
-                    // Inicializa contador na primeira entrada, decrementa depois
-                    if (estado_atual == IDLE)
-                        invalid_counter <= 2'b10; // 2 ciclos
-                    else
-                        invalid_counter <= invalid_counter - 1'b1;
+                    INVALID_MOVE <= 1'b1;
+                    SPECIAL_CARD <= 1'b0;
+                    NEW_TOP_CARD <= TOP_CARD;
                 end
 
                 IDLE: begin
-                    INVALID_MOVE    <= 1'b0;
-                    SPECIAL_CARD    <= 1'b0;
-                    NEW_TOP_CARD    <= TOP_CARD;
-                    invalid_counter <= 2'b00;
+                    INVALID_MOVE <= 1'b0;
+                    SPECIAL_CARD <= 1'b0;
+                    NEW_TOP_CARD <= TOP_CARD;
                 end
 
                 default: begin
-                    INVALID_MOVE    <= 1'b0;
-                    SPECIAL_CARD    <= 1'b0;
-                    NEW_TOP_CARD    <= TOP_CARD;
-                    invalid_counter <= 2'b00;
+                    INVALID_MOVE <= 1'b0;
+                    SPECIAL_CARD <= 1'b0;
+                    NEW_TOP_CARD <= TOP_CARD;
                 end
 
             endcase

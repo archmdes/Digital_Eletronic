@@ -56,6 +56,19 @@ module validate_move_tb;
         end
     endtask
 
+    // Tarefa: aguarda N ciclos exibindo o estado (para ver INVALID_MOVE durando)
+    task aguardar_ciclos;
+        input integer n;
+        integer i;
+        begin
+            for (i = 0; i < n; i = i + 1) begin
+                @(posedge clk); #1;
+                $display("  >> ciclo extra | INVALID=%b  SPECIAL=%b  NEW_TOP=%b  [estado=%b]",
+                          INVALID_MOVE, SPECIAL_CARD, NEW_TOP_CARD,
+                          uut.estado_atual);
+            end
+        end
+    endtask
 
     initial begin
         // Inicialização
@@ -100,7 +113,7 @@ module validate_move_tb;
         // PLAYER: 00_0111_11  (verde, naipe 7)
         $display("-- Teste 3: cor e naipe diferentes -> invalidMove (2 ciclos)");
         aplicar_teste("T3", 1, 0, 8'b00_0111_11, 8'b0, 8'b00_0001_01);
-        
+        aguardar_ciclos(3); // observa os 2 ciclos de INVALID_MOVE + retorno ao IDLE
 
         PLAYER_TURN = 0;
         @(posedge clk); #1;
