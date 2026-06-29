@@ -11,12 +11,12 @@ module validate_move_tb;
     reg [7:0] CPU_CARD;
     reg [7:0] TOP_CARD;
 
-    // Sa�das
+    // Saidas
     wire INVALID_MOVE;
     wire SPECIAL_CARD;
     wire [7:0] NEW_TOP_CARD;
 
-    // Instancia o m�dulo
+    // Instancia o modulo
     validate_move uut (
         .clk(clk),
         .rst(rst),
@@ -30,7 +30,7 @@ module validate_move_tb;
         .NEW_TOP_CARD(NEW_TOP_CARD)
     );
 
-    // Clock: per�odo de 10ns
+    
     initial clk = 0
     always #5 clk = ~clk;
 
