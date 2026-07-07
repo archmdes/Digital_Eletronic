@@ -45,7 +45,7 @@ module tb_uno;
         .TOP_CARD     (top_card)
     );
 
-    // Reduzindo o timer dos LEDs para a simulação andar rápido
+    // Reduzindo o timer dos LEDs para a simulação rodar muito rápido
     defparam U_UNO.U_AL_PT.CICLOS = 2;
     defparam U_UNO.U_AL_CT.CICLOS = 2;
     defparam U_UNO.U_AL_IM.CICLOS = 2;
@@ -56,9 +56,11 @@ module tb_uno;
     always #10 clk = ~clk;
 
     // =========================================================================
-    // FUNÇÕES E TASKS AUXILIARES
+    // TASKS AUXILIARES
     // =========================================================================
-    task print_card;
+
+    // Imprime o nome da carta legível direto no log
+    task print_card_name;
         input [7:0] c;
         reg [1:0] color;
         reg [3:0] val;
@@ -68,113 +70,148 @@ module tb_uno;
             color = c[5:4];
             val = c[3:0];
             if (esp) begin
-                if (val == 3) $write("WILD");
-                else if (val == 4) $write("WILD_DRAW4");
+                if (val == 3) $fwrite(arquivo, "WILD");
+                else if (val == 4) $fwrite(arquivo, "WILD_DRAW4");
                 else begin
-                    if (color==0) $write("VERMELHO_");
-                    else if (color==1) $write("AMARELO_");
-                    else if (color==2) $write("VERDE_");
-                    else if (color==3) $write("AZUL_");
-                    if (val == 0) $write("SKIP");
-                    else if (val == 1) $write("REVERSE");
-                    else if (val == 2) $write("DRAW2");
+                    if (color==0) $fwrite(arquivo, "VERMELHO_");
+                    else if (color==1) $fwrite(arquivo, "AMARELO_");
+                    else if (color==2) $fwrite(arquivo, "VERDE_");
+                    else if (color==3) $fwrite(arquivo, "AZUL_");
+                    
+                    if (val == 0) $fwrite(arquivo, "SKIP");
+                    else if (val == 1) $fwrite(arquivo, "REVERSE");
+                    else if (val == 2) $fwrite(arquivo, "DRAW2");
                 end
             end else begin
-                if (color==0) $write("VERMELHO_");
-                else if (color==1) $write("AMARELO_");
-                else if (color==2) $write("VERDE_");
-                else if (color==3) $write("AZUL_");
-                $write("%0d", val);
+                if (color==0) $fwrite(arquivo, "VERMELHO_");
+                else if (color==1) $fwrite(arquivo, "AMARELO_");
+                else if (color==2) $fwrite(arquivo, "VERDE_");
+                else if (color==3) $fwrite(arquivo, "AZUL_");
+                $fwrite(arquivo, "%0d", val);
             end
         end
     endtask
 
-    function is_valid;
-        input [7:0] card;
-        input [7:0] top;
-        reg esp_c, esp_t;
-        reg [1:0] cor_c, cor_t;
-        reg [3:0] val_c, val_t;
-        reg curinga;
-        begin
-            esp_c = card[6]; cor_c = card[5:4]; val_c = card[3:0];
-            esp_t = top[6];  cor_t = top[5:4];  val_t = top[3:0];
-            curinga = esp_c && (val_c == 4'd3 || val_c == 4'd4);
-            is_valid = curinga || (cor_c == cor_t) || 
-                       (!esp_c && !esp_t && (val_c == val_t)) ||
-                       (esp_c && esp_t && (val_c == val_t) && val_c != 3 && val_c != 4);
-        end
-    endfunction
-
+    // Aguarda pelo turno de alguém (Estados: 7=Player, 16=CPU, 31=Win, 32=Lose)
     task wait_for_turn;
+        integer timeout;
         begin
+            timeout = 0;
             while (U_UNO.estado != 6'd7 && U_UNO.estado != 6'd16 && U_UNO.estado != 6'd31 && U_UNO.estado != 6'd32) begin
                 @(posedge clk);
+                timeout = timeout + 1;
+                
+                if (timeout > 100000) begin
+                    $fdisplay(arquivo, "[ERRO FATAL] FSM presa no estado: %0d. Abortando.", U_UNO.estado);
+                    $fflush(arquivo);
+                    $finish;
+                end
             end
         end
     endtask
 
+    // Executa a interação de um jogador real com os botões
     task do_player_turn;
-        integer k;
-        reg valid_found;
-        reg [7:0] target_card;
+        integer attempts;
+        reg move_accepted;
         begin
-            valid_found = 0;
-            for (k = 0; k < n_player; k = k + 1) begin
-                if (is_valid(U_UNO.mao_player[k], top_card)) begin
-                    valid_found = 1;
-                    target_card = U_UNO.mao_player[k];
-                    k = 99;
+            $fwrite(arquivo, "[%0t] TURNO DO PLAYER | Mao: %0d cartas | Topo: ", $time, n_player);
+            print_card_name(top_card);
+            $fdisplay(arquivo, ""); // Quebra linha
+            $fflush(arquivo);
+
+            attempts = 0;
+            move_accepted = 0;
+
+            while (attempts < n_player && !move_accepted) begin
+                // 1. Aperta PLAY na carta atual
+                play = 1; @(posedge clk); play = 0;
+                
+                // 2. Aguarda 1 clock para FSM processar o botao e sair do estado 7
+                @(posedge clk);
+
+                // 3. Enquanto a FSM estiver validando (8), mostrando erro (13) ou resultado (9), aguarda.
+                while (U_UNO.estado == 6'd8 || U_UNO.estado == 6'd9 || U_UNO.estado == 6'd13) begin
+                    @(posedge clk);
+                end
+
+                // 4. Se a FSM voltar para o estado 7, a jogada foi invalida!
+                if (U_UNO.estado == 6'd7) begin
+                    // Aperta SELECT para rotacionar a carta da mao
+                    select = 1; @(posedge clk); select = 0;
+                    @(posedge clk); // 1 clock pro sel_idx atualizar
+                    attempts = attempts + 1;
+                end else begin
+                    // A FSM avancou (estado 10 ou 12), jogada aceita!
+                    move_accepted = 1;
                 end
             end
 
-            $fdisplay(arquivo, "[%0t] TURNO DO PLAYER | Mao: %0d cartas.", $time, n_player);
-            if (valid_found) begin
-                $fdisplay(arquivo, "      -> Acao: Jogando carta valida.");
-                while (player_card !== target_card) begin
-                    select = 1; @(posedge clk); select = 0; @(posedge clk);
-                end
-                play = 1; @(posedge clk); play = 0; @(posedge clk);
+            // 5. Se rodou toda a mao e nada foi aceito, aperta DRAW.
+            if (!move_accepted) begin
+                $fdisplay(arquivo, "      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...");
+                $fflush(arquivo);
+                draw = 1; @(posedge clk); draw = 0;
             end else begin
-                $fdisplay(arquivo, "      -> Acao: Sem carta valida. Comprando.");
-                draw = 1; @(posedge clk); draw = 0; @(posedge clk);
+                $fdisplay(arquivo, "      -> Carta da mao (Tentativa %0d) jogada com sucesso!", attempts + 1);
+                $fflush(arquivo);
             end
         end
     endtask
+
+    // Observa a jogada da CPU sem interferir
+    task log_cpu_turn;
+        begin
+            $fwrite(arquivo, "[%0t] TURNO DA CPU    | Mao: %0d cartas | Topo: ", $time, n_cpu);
+            print_card_name(top_card);
+            $fdisplay(arquivo, ""); // Quebra linha
+            $fflush(arquivo);
+
+            // A CPU roda sozinha, entao apenas esperamos ela sair do estado 16.
+            while (U_UNO.estado == 6'd16) @(posedge clk);
+        end
+    endtask
+
 
     // =========================================================================
     // LÓGICA PRINCIPAL
     // =========================================================================
-    integer i, turn;
-
+    integer turn_count;
+    
     initial begin
         arquivo = $fopen("log_simulacao_uno.txt", "w");
         $dumpfile("simulacao_uno.vcd");
         $dumpvars(0, tb_uno);
-
-        $fdisplay(arquivo, "=== INICIANDO SIMULACAO UNO ===");
+        
+        $fdisplay(arquivo, "=== INICIANDO SIMULACAO UNO (FSM Autonoma para CPU) ===");
+        $fflush(arquivo);
         
         clk = 0; rst = 1; select = 0; play = 0; draw = 0;
         #100 rst = 0;
 
         wait_for_turn();
 
-        turn = 0;
-        while (!win && !lose && turn < 150) begin
+        turn_count = 0;
+        // Roda o jogo até que alguem ganhe ou chegue no limite (para não rodar infinito)
+        while (!win && !lose && turn_count < 250) begin
+            
             if (U_UNO.estado == 6'd7) begin
                 do_player_turn();
-                @(posedge clk); 
                 wait_for_turn();
             end 
             else if (U_UNO.estado == 6'd16) begin
-                $fdisplay(arquivo, "[%0t] TURNO DA CPU | Mao: %0d cartas.", $time, n_cpu);
-                @(posedge clk); 
+                log_cpu_turn();
                 wait_for_turn(); 
             end
-            turn = turn + 1;
+            
+            turn_count = turn_count + 1;
         end
 
-        $fdisplay(arquivo, "=== FIM DE JOGO (WIN: %b, LOSE: %b) ===", win, lose);
+        $fdisplay(arquivo, "=======================================");
+        if (win) $fdisplay(arquivo, "=== FIM DE JOGO: O PLAYER VENCEU!!! ===");
+        else if (lose) $fdisplay(arquivo, "=== FIM DE JOGO: A CPU VENCEU!!! ===");
+        else $fdisplay(arquivo, "=== FIM DE JOGO: EMPATE (LIMITE DE TURNOS) ===");
+        
         $fclose(arquivo);
         $finish; 
     end
