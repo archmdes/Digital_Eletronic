@@ -1,0 +1,78 @@
+=== INICIANDO SIMULACAO UNO (FSM Autonoma para CPU) ===
+[24710000] TURNO DO PLAYER | Mao: 7 cartas | Topo: VERMELHO_1
+      -> Carta da mao (Tentativa 5) jogada com sucesso!
+[25410000] TURNO DO PLAYER | Mao: 6 cartas | Topo: VERMELHO_REVERSE
+      -> Carta da mao (Tentativa 3) jogada com sucesso!
+[25790000] TURNO DA CPU    | Mao: 7 cartas | Topo: VERMELHO_4
+[25870000] TURNO DO PLAYER | Mao: 5 cartas | Topo: VERMELHO_4
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[26590000] TURNO DO PLAYER | Mao: 5 cartas | Topo: VERMELHO_4
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[26750000] TURNO DA CPU    | Mao: 6 cartas | Topo: VERMELHO_4
+[26830000] TURNO DO PLAYER | Mao: 6 cartas | Topo: VERMELHO_4
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[27690000] TURNO DO PLAYER | Mao: 6 cartas | Topo: VERMELHO_4
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[27890000] TURNO DO PLAYER | Mao: 6 cartas | Topo: VERMELHO_SKIP
+      -> Carta da mao (Tentativa 3) jogada com sucesso!
+[28310000] TURNO DO PLAYER | Mao: 5 cartas | Topo: AZUL_SKIP
+      -> Carta da mao (Tentativa 3) jogada com sucesso!
+[28690000] TURNO DA CPU    | Mao: 5 cartas | Topo: AZUL_5
+[28770000] TURNO DO PLAYER | Mao: 4 cartas | Topo: AZUL_5
+      -> Carta da mao (Tentativa 2) jogada com sucesso!
+[29010000] TURNO DA CPU    | Mao: 4 cartas | Topo: AZUL_3
+[29190000] TURNO DO PLAYER | Mao: 3 cartas | Topo: AZUL_3
+      -> Carta da mao (Tentativa 2) jogada com sucesso!
+[29650000] TURNO DO PLAYER | Mao: 2 cartas | Topo: AZUL_DRAW2
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[29950000] TURNO DO PLAYER | Mao: 2 cartas | Topo: AZUL_DRAW2
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[30330000] TURNO DO PLAYER | Mao: 2 cartas | Topo: VERMELHO_DRAW2
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[30630000] TURNO DO PLAYER | Mao: 2 cartas | Topo: VERMELHO_DRAW2
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[30790000] TURNO DA CPU    | Mao: 9 cartas | Topo: VERMELHO_DRAW2
+[30870000] TURNO DO PLAYER | Mao: 3 cartas | Topo: VERMELHO_DRAW2
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[31310000] TURNO DO PLAYER | Mao: 3 cartas | Topo: VERMELHO_DRAW2
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[31470000] TURNO DA CPU    | Mao: 8 cartas | Topo: VERMELHO_DRAW2
+[31550000] TURNO DO PLAYER | Mao: 4 cartas | Topo: VERMELHO_DRAW2
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[32130000] TURNO DO PLAYER | Mao: 4 cartas | Topo: VERMELHO_DRAW2
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[32290000] TURNO DA CPU    | Mao: 7 cartas | Topo: VERMELHO_DRAW2
+[32370000] TURNO DO PLAYER | Mao: 5 cartas | Topo: VERMELHO_DRAW2
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[33090000] TURNO DO PLAYER | Mao: 5 cartas | Topo: VERMELHO_DRAW2
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[33250000] TURNO DA CPU    | Mao: 6 cartas | Topo: VERMELHO_1
+[33330000] TURNO DO PLAYER | Mao: 5 cartas | Topo: VERMELHO_1
+      -> Carta da mao (Tentativa 3) jogada com sucesso!
+[33710000] TURNO DA CPU    | Mao: 5 cartas | Topo: AZUL_1
+[33790000] TURNO DO PLAYER | Mao: 4 cartas | Topo: AZUL_1
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[33890000] TURNO DA CPU    | Mao: 4 cartas | Topo: AZUL_0
+[34070000] TURNO DO PLAYER | Mao: 3 cartas | Topo: AZUL_8
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[34510000] TURNO DO PLAYER | Mao: 3 cartas | Topo: AZUL_8
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[34710000] TURNO DA CPU    | Mao: 4 cartas | Topo: WILD
+[34790000] TURNO DO PLAYER | Mao: 3 cartas | Topo: WILD
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[35230000] TURNO DO PLAYER | Mao: 3 cartas | Topo: WILD
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[35430000] TURNO DO PLAYER | Mao: 3 cartas | Topo: VERDE_REVERSE
+      -> Nenhuma carta da mao foi aceita. Comprando (DRAW)...
+[35870000] TURNO DO PLAYER | Mao: 3 cartas | Topo: VERDE_REVERSE
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[36070000] TURNO DO PLAYER | Mao: 3 cartas | Topo: AMARELO_REVERSE
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[36170000] TURNO DA CPU    | Mao: 3 cartas | Topo: AMARELO_6
+[36250000] TURNO DO PLAYER | Mao: 2 cartas | Topo: AMARELO_6
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+[36350000] TURNO DA CPU    | Mao: 2 cartas | Topo: AMARELO_3
+[36430000] TURNO DO PLAYER | Mao: 1 cartas | Topo: AMARELO_3
+      -> Carta da mao (Tentativa 1) jogada com sucesso!
+=======================================
+=== FIM DE JOGO: O PLAYER VENCEU!!! ===
